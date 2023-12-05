@@ -27,15 +27,18 @@ export const addArtist = async (request, reply) => {
 export const getArtists = async (request, reply) => {
     try {
         const page = request.query.page || 1
+        const limit = request.query.limit || null
         const search = request.query.search || null
         const totalDocuments = await ArtistModel.countDocuments()
+
         const artists = await ArtistModel.find(
             {
                 name: { $regex: search ? '.*' + search : '', $options: 'i' }
             }
         )
-            .sort(search && { name: 'asc' })
-            .limit(10).skip(10 * (Number(page) === 1 ? 0 : Number(page) - 1))
+            .sort({ name: 'asc' })
+            .limit(limit === 'all' ? null : limit)
+            .skip(10 * (Number(page) === 1 ? 0 : Number(page) - 1))
 
         return reply.status(200).send({
             totalDocuments,

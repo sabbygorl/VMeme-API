@@ -48,7 +48,6 @@ export const signin = async (request, reply) => {
     try {
         const { email, password } = request.body
         const userDB = await UserModel.findOne({ email }).select('password')
-
         if (!userDB) throw new Error('Email not found.')
 
         const isPasswordMatch = await bcrypt.compare(password, userDB.password)
@@ -71,9 +70,7 @@ export const signin = async (request, reply) => {
 export const otp = async (request, reply) => {
     try {
         const { email } = request.body
-
         const userCount = await UserModel.countDocuments({ email })
-
         if (!userCount) throw new Error('Email not found.')
 
         const OTP = await generateOTP(email)

@@ -15,7 +15,7 @@ export const addOrder = async (request, reply) => {
         } = request.body
         const cartItemsDB = await CartModel.find({ user }).select('painting -_id').populate({ path: 'painting' })
         if (!cartItemsDB || cartItemsDB.length <= 0) throw new Error('No ordered paintings.')
-        
+
         const paintingReferencesIDs = await cartItemsDB.map(item => item.painting._id)
         const paintingReferences = await cartItemsDB.map(item => item.painting)
         await paintingReferences.forEach((value) => delete value._doc._id)
@@ -96,6 +96,34 @@ export const getOrder = async (request, reply) => {
         const orderDB = await OrderModel.findOne({ _id: orderID }).populate({ path: 'orderedPaintings', populate: { path: 'artist', select: 'name' } })
         if (!orderDB) throw new Error('Order doesn\'t exist')
         return reply.status(200).send(orderDB)
+    } catch (e) {
+        return reply.status(400).send({
+            success: false,
+            message: e.message
+        })
+    }
+}
+
+export const updateStatus = async (request, reply) => {
+    try {
+        const { orderID } = request.params
+        const { status } = request.body
+        const orderDB = await OrderModel.findOne({ _id: orderID })
+        if (!orderDB.confirmedDate && status === 'Confirmed') {
+            orderDB.confirmedDate = Date.now()
+        }
+        else if ((!orderDB.completedDate && status === 'Completed') || (!orderDB.completedDate && status === 'Declined')) {
+            orderDB.completedDate = Date.now()
+        }
+
+        orderDB.status = status
+        orderDB.save()
+
+        return reply.status(200).send({
+            success: true,
+            message: 'Updated.'
+        })
+
     } catch (e) {
         return reply.status(400).send({
             success: false,

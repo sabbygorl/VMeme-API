@@ -39,9 +39,17 @@ const orderSchema = new Schema({
     status: {
         type: String,
         enum: ['Pending', 'Confirmed', 'Completed', 'Declined'],
-        default: 'Pending', // Set a default value if needed
+        default: 'Pending',
         required: true,
     },
+    confirmedDate: {
+        type: Date,
+        default: null
+    },
+    completedDate: {
+        type: Date,
+        default: null
+    }
 }, { timestamps: true })
 
 const OrderModel = model('order', orderSchema)
