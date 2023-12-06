@@ -106,7 +106,7 @@ export const otpVerify = async (request, reply) => {
 
         if (otpDB.otp !== otp) throw new Error('OTP doesn\'t match.')
 
-        const userDB = await UserModel.findOne({ email }).select('email fullName')
+        const userDB = await UserModel.findOne({ email }).select('-password')
 
         if (!otpDB) throw new Error('User isn\'t registered.')
 

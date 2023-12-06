@@ -8,6 +8,8 @@ import ArtistsRoute from './routers/ArtistsRoute.js';
 import PaintingsRoute from './routers/PaintingsRoute.js';
 import CartRoute from './routers/CartRoute.js';
 import OrderRoute from './routers/OrderRoute.js';
+import UsersRoute from './routers/UsersRoute.js';
+import DashboardRoute from './routers/DashboardRoute.js';
 const fastify = Fastify()
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -22,6 +24,8 @@ fastify.register(ArtistsRoute, { prefix: '/api/v1/artist' })
 fastify.register(PaintingsRoute, { prefix: '/api/v1/paintings' })
 fastify.register(CartRoute, { prefix: '/api/v1/cart' })
 fastify.register(OrderRoute, { prefix: '/api/v1/order' })
+fastify.register(UsersRoute, { prefix: '/api/v1/user' })
+fastify.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
 
 // Run the server!
 try {

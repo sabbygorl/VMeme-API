@@ -35,9 +35,7 @@ export const addOrder = async (request, reply) => {
 
 
         //make the items unavaible to users
-        console.log(paintingReferencesIDs)
-        const sam = await PaintingModel.updateMany({ _id: { $in: paintingReferencesIDs } }, { $set: { status: 'Not available' } })
-        console.log(sam)
+        const sam = await PaintingModel.updateMany({ _id: { $in: paintingReferencesIDs } }, { $set: { status: 'Sold' } })
 
         //delete items in cart
         await CartModel.deleteMany({ user })
@@ -71,10 +69,16 @@ export const getUserOrders = async (request, reply) => {
 export const getOrders = async (request, reply) => {
     try {
         const page = request.query.page || 1
+        const limit = request.query.limit || null
+        const search = request.query.search || null
         const totalDocuments = await OrderModel.countDocuments()
-        const ordersDB = await OrderModel.find()
-            .sort('createdAt')
-            .limit(10).skip(10 * (Number(page) === 1 ? 0 : Number(page) - 1))
+        const ordersDB = await OrderModel
+            .find({
+                referenceID: { $regex: search ? '.*' + search : '', $options: 'i' }
+            })
+            .sort('-createdAt')
+            .limit(limit === 'all' ? null : limit)
+            .skip(10 * (Number(page) === 1 ? 0 : Number(page) - 1))
             .populate({ path: 'orderedPaintings', populate: { path: 'artist', select: 'name' } })
 
         return reply.status(200).send({
