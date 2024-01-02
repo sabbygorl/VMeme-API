@@ -16,21 +16,22 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('DB Connected'))
     .catch(err => console.log(err.message))
 
-
-fastify.register((instance) => {
-    instance.register(fastifyCors, {
-        origin: 'http://localhost:3000'
-    })
-    instance.register(AuthRoute, { prefix: '/api/v1/auth' })
-    instance.register(ArtistsRoute, { prefix: '/api/v1/artist' })
-    instance.register(PaintingsRoute, { prefix: '/api/v1/paintings' })
-    instance.register(CartRoute, { prefix: '/api/v1/cart' })
-    instance.register(OrderRoute, { prefix: '/api/v1/order' })
-    instance.register(UsersRoute, { prefix: '/api/v1/user' })
-    instance.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
+fastify.register(fastifyCors, {
+    origin: 'http://localhost:3000'
 })
+fastify.register(AuthRoute, { prefix: '/api/v1/auth' })
+fastify.register(ArtistsRoute, { prefix: '/api/v1/artist' })
+fastify.register(PaintingsRoute, { prefix: '/api/v1/paintings' })
+fastify.register(CartRoute, { prefix: '/api/v1/cart' })
+fastify.register(OrderRoute, { prefix: '/api/v1/order' })
+fastify.register(UsersRoute, { prefix: '/api/v1/user' })
+fastify.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
 
-export default async (req, res) => {
-    await fastify.ready();
-    fastify.server.emit("request", req, res);
-};
+// Run the server!
+try {
+    await fastify.listen({ port: 5000 })
+    console.log('listening at port 5000')
+} catch (err) {
+    fastify.log.error(err)
+    process.exit(1)
+}
