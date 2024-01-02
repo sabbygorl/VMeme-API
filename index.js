@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.log(err.message))
 
 fastify.register(fastifyCors, {
-    origin: 'http://localhost:3000'
+    origin: 'https://vmeme.vercel.app'
 })
 fastify.register(AuthRoute, { prefix: '/api/v1/auth' })
 fastify.register(ArtistsRoute, { prefix: '/api/v1/artist' })
