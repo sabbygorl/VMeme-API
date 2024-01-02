@@ -29,8 +29,8 @@ fastify.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
 
 // Run the server!
 try {
-    await fastify.listen({ port: process.env.PORT })
-    console.log(`listening at port ${process.env.PORT}`)
+    await fastify.listen({ port: process.env.PORT || 6000 })
+    console.log(`listening at port ${process.env.PORT || 6000}`)
 } catch (err) {
     fastify.log.error(err)
     process.exit(1)
