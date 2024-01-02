@@ -9,7 +9,7 @@ import OrderRoute from './routers/OrderRoute.js';
 import UsersRoute from './routers/UsersRoute.js';
 import DashboardRoute from './routers/DashboardRoute.js';
 
-const main = async (fastify) => {
+async function app(fastify) {
     fastify.register(fastifyCors, {
         origin: 'http://localhost:3000'
     })
@@ -23,7 +23,7 @@ const main = async (fastify) => {
     fastify.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
 }
 
-export default main
+export default app
 
 
 
