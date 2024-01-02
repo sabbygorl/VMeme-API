@@ -13,7 +13,7 @@ const main = async (fastify) => {
     fastify.register(fastifyCors, {
         origin: 'http://localhost:3000'
     })
-
+    fastify.get('/', async (request, reply) => reply.status(200).send('Welcome'))
     fastify.register(AuthRoute, { prefix: '/api/v1/auth' })
     fastify.register(ArtistsRoute, { prefix: '/api/v1/artist' })
     fastify.register(PaintingsRoute, { prefix: '/api/v1/paintings' })
