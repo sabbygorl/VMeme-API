@@ -13,8 +13,6 @@ const app = Fastify({
     logger: true,
 });
 
-
-
 // Register your application as a normal plugin.
 app.register(main, { prefix: '/' });
 

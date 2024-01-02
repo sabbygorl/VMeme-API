@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('DB Connected'))
     .catch(err => console.log(err.message))
 
-async function app(fastify) {
+async function app(fastify, options, done) {
     fastify.register(fastifyCors, {
         origin: 'http://localhost:3000'
     })
@@ -26,6 +26,7 @@ async function app(fastify) {
     fastify.register(OrderRoute, { prefix: '/api/v1/order' })
     fastify.register(UsersRoute, { prefix: '/api/v1/user' })
     fastify.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
+    done()
 }
 
 export default app
