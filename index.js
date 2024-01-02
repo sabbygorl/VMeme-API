@@ -8,6 +8,11 @@ import CartRoute from './routers/CartRoute.js';
 import OrderRoute from './routers/OrderRoute.js';
 import UsersRoute from './routers/UsersRoute.js';
 import DashboardRoute from './routers/DashboardRoute.js';
+import mongoose from 'mongoose';
+
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('DB Connected'))
+    .catch(err => console.log(err.message))
 
 async function app(fastify) {
     fastify.register(fastifyCors, {

@@ -2,7 +2,6 @@
 
 // Read the .env file.
 import * as dotenv from "dotenv";
-import mongoose from 'mongoose';
 import main from "../index.js";
 dotenv.config();
 
@@ -14,9 +13,7 @@ const app = Fastify({
     logger: true,
 });
 
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('DB Connected'))
-    .catch(err => console.log(err.message))
+
 
 // Register your application as a normal plugin.
 app.register(main, { prefix: '/' });
