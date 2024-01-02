@@ -10,6 +10,9 @@ import CartRoute from './routers/CartRoute.js';
 import OrderRoute from './routers/OrderRoute.js';
 import UsersRoute from './routers/UsersRoute.js';
 import DashboardRoute from './routers/DashboardRoute.js';
+const port = process.env.PORT || 5000;
+const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
+
 const fastify = Fastify()
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -29,8 +32,8 @@ fastify.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
 
 // Run the server!
 try {
-    await fastify.listen({ port: process.env.PORT || 6000 })
-    console.log(`listening at port ${process.env.PORT || 6000}`)
+    await fastify.listen({ host, port })
+    console.log(`listening at port ${port}`)
 } catch (err) {
     fastify.log.error(err)
     process.exit(1)
