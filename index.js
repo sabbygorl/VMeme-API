@@ -10,6 +10,7 @@ import CartRoute from './routers/CartRoute.js';
 import OrderRoute from './routers/OrderRoute.js';
 import UsersRoute from './routers/UsersRoute.js';
 import DashboardRoute from './routers/DashboardRoute.js';
+import PageRoute from './routers/PageRoute.js';
 const port = process.env.PORT || 5000;
 const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
 
@@ -29,6 +30,7 @@ fastify.register(CartRoute, { prefix: '/api/v1/cart' })
 fastify.register(OrderRoute, { prefix: '/api/v1/order' })
 fastify.register(UsersRoute, { prefix: '/api/v1/user' })
 fastify.register(DashboardRoute, { prefix: '/api/v1/dashboard' })
+fastify.register(PageRoute, { prefix: '/api/v1/page' })
 
 // Run the server!
 try {
